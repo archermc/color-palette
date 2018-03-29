@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorPalette", "ColorPalette\ColorPalette.csproj", "{076B6FA5-D999-4825-A792-4B7A529683D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorPalette.Repositories", "ColorPalette.Repositories\ColorPalette.Repositories.csproj", "{651B36CF-F46F-40EC-B70A-A58E60824313}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorPalette.Objects", "ColorPalette.Objects\ColorPalette.Objects.csproj", "{EA24C174-39E5-4BCF-B79E-4FC90AC79B6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorPalette.Helpers", "ColorPalette.Helpers\ColorPalette.Helpers.csproj", "{D691A051-C77F-41E1-B505-DD3608C3F35D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorPalette.Managers", "ColorPalette.Managers\ColorPalette.Managers.csproj", "{B947087E-C36A-4782-A215-A8F8A609074F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{076B6FA5-D999-4825-A792-4B7A529683D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{076B6FA5-D999-4825-A792-4B7A529683D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{076B6FA5-D999-4825-A792-4B7A529683D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{076B6FA5-D999-4825-A792-4B7A529683D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{651B36CF-F46F-40EC-B70A-A58E60824313}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{651B36CF-F46F-40EC-B70A-A58E60824313}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{651B36CF-F46F-40EC-B70A-A58E60824313}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{651B36CF-F46F-40EC-B70A-A58E60824313}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA24C174-39E5-4BCF-B79E-4FC90AC79B6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA24C174-39E5-4BCF-B79E-4FC90AC79B6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA24C174-39E5-4BCF-B79E-4FC90AC79B6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA24C174-39E5-4BCF-B79E-4FC90AC79B6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D691A051-C77F-41E1-B505-DD3608C3F35D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D691A051-C77F-41E1-B505-DD3608C3F35D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D691A051-C77F-41E1-B505-DD3608C3F35D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D691A051-C77F-41E1-B505-DD3608C3F35D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B947087E-C36A-4782-A215-A8F8A609074F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B947087E-C36A-4782-A215-A8F8A609074F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B947087E-C36A-4782-A215-A8F8A609074F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B947087E-C36A-4782-A215-A8F8A609074F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {683FEE65-AB62-43DA-B5E5-A6D2F1092BD9}
+	EndGlobalSection
+EndGlobal
