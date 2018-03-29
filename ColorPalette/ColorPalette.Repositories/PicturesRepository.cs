@@ -20,13 +20,31 @@ namespace ColorPalette.Repositories
 
         public async Task<List<PictureDTO>> GetAllAsync()
         {
-            return _dbContext.Pictures.Select(p => new PictureDTO
+            var pictures = await _dbContext.Pictures.ToListAsync();
+
+            return pictures.Select(p => new PictureDTO
             {
                 Id = p.Id,
                 FileName = p.FileName,
                 Contents = p.Contents,
                 ColorSwaths = FormatColorSwaths(p.ColorSwaths)
             }).ToList();
+        }
+
+        public async Task<PictureDTO> GetAsync(int id)
+        {
+            var picture = await _dbContext.Pictures.SingleOrDefaultAsync(p => p.Id == id);
+
+            if (picture == null)
+                return null;
+
+            return new PictureDTO
+            {
+                Id = picture.Id,
+                FileName = picture.FileName,
+                ColorSwaths = FormatColorSwaths(picture.ColorSwaths),
+                Contents = picture.Contents
+            };
         }
 
         public async Task<PictureDTO> AddContentsAsync(byte[] contents)
@@ -77,7 +95,7 @@ namespace ColorPalette.Repositories
             if (rawInput.IsNullOrEmpty())
                 return null;
 
-            return new List<int[]>();
+            return null;
         }
 
         //private bool PictureExists(int id)

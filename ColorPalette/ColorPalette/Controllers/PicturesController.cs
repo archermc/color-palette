@@ -26,12 +26,10 @@ namespace ColorPalette.Controllers
         [ResponseType(typeof(PictureDTO))]
         public async Task<IHttpActionResult> GetPicture(int id)
         {
-            // manager call
-            PictureDTO picture = null;
+            var picture = await _picturesManager.GetPicture(id);
+
             if (picture == null)
-            {
                 return NotFound();
-            }
 
             return Ok(picture);
         }

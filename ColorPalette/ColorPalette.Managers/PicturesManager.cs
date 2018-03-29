@@ -20,6 +20,11 @@ namespace ColorPalette.Managers
             return await _picturesRepository.GetAllAsync();
         }
 
+        public async Task<PictureDTO> GetPicture(int id)
+        {
+            return await _picturesRepository.GetAsync(id);
+        }
+
         public async Task<PictureDTO> AddPictureContents(byte[] contents)
         {
             return await _picturesRepository.AddContentsAsync(contents);
