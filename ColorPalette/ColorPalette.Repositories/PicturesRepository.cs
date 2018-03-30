@@ -11,9 +11,9 @@ namespace ColorPalette.Repositories
 {
     public class PicturesRepository : IPicturesRepository
     {
-        private readonly ColorPaletteContext _dbContext;
+        private readonly IColorPaletteContext _dbContext;
 
-        public PicturesRepository(ColorPaletteContext context)
+        public PicturesRepository(IColorPaletteContext context)
         {
             _dbContext = context;
         }
@@ -47,11 +47,12 @@ namespace ColorPalette.Repositories
             };
         }
 
-        public async Task<PictureDTO> AddContentsAsync(byte[] contents)
+        public async Task<PictureDTO> AddAsync(PictureDTO picture)
         {
             var newPicture = _dbContext.Pictures.Add(new Picture
             {
-                Contents = contents
+                FileName = picture.FileName,
+                Contents = picture.Contents
             });
 
             await _dbContext.SaveChangesAsync();
@@ -59,21 +60,10 @@ namespace ColorPalette.Repositories
             return new PictureDTO
             {
                 Id = newPicture.Id,
-                // do I need to pass back the contents?
-                // Contents = newPicture.contents
+                FileName = newPicture.FileName,
+                Contents = newPicture.Contents,
+                ColorSwaths = FormatColorSwaths(newPicture.ColorSwaths)
             };
-        }
-
-        public async Task<bool> AddMetadataAsync(PictureDTO pictureDto)
-        {
-            var picture = await _dbContext.Pictures.FirstOrDefaultAsync(p => p.Id == pictureDto.Id);
-
-            var updatedPicture = UpdatePicture(picture, pictureDto);
-            _dbContext.Entry(picture).CurrentValues.SetValues(updatedPicture);
-
-            await _dbContext.SaveChangesAsync();
-
-            return true;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -104,14 +94,14 @@ namespace ColorPalette.Repositories
         //}
 
         // TODO: possibly refactor into extension method
-        private Picture UpdatePicture(Picture picture, PictureDTO pictureDto)
-        {
-            picture.FileName = pictureDto.FileName;
-            picture.ColorSwaths = pictureDto.ColorSwaths.ToString();
-            picture.Contents = pictureDto.Contents;
+        //private Picture UpdatePicture(Picture picture, PictureDTO pictureDto)
+        //{
+        //    picture.FileName = pictureDto.FileName;
+        //    picture.ColorSwaths = pictureDto.ColorSwaths.ToString();
+        //    picture.Contents = pictureDto.Contents;
 
-            return picture;
-        }
+        //    return picture;
+        //}
 
         #endregion
     }

@@ -1,8 +1,9 @@
 ﻿using System.Data.Entity;
+using ColorPalette.Repositories.Interfaces;
 
 namespace ColorPalette.Repositories.Models
 {
-    public class ColorPaletteContext : DbContext
+    public class ColorPaletteContext : DbContext, IColorPaletteContext
     {
         public ColorPaletteContext() : base("name=ColorPaletteContext")
         {
@@ -10,14 +11,5 @@ namespace ColorPalette.Repositories.Models
         }
 
         public DbSet<Picture> Pictures { get; set; }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
     }
 }

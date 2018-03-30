@@ -1,7 +1,9 @@
 ﻿using ColorPalette.Managers.Interfaces;
 using ColorPalette.Objects.DTOs;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -34,67 +36,32 @@ namespace ColorPalette.Controllers
             return Ok(picture);
         }
 
-        //// PUT: api/Pictures/5
-        //[ResponseType(typeof(void))]
-        //public async Task<IHttpActionResult> PutPicture(int id, Picture picture)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != picture.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(picture).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await db.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!PictureExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
         // POST: api/Pictures
         [ResponseType(typeof(PictureDTO))]
-        public async Task<IHttpActionResult> PostPictureContents(PictureDTO picture)
+        [HttpPost, Route("api/pictures")]
+        public async Task<IHttpActionResult> PostPicture()
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest(ModelState);
-            //}
+            var file = HttpContext.Current.Request.Files.Count == 1 ?
+                    HttpContext.Current.Request.Files[0] : null;
 
-            // manager call to post picture contents
+            if (file == null || file.ContentLength == 0)
+                return BadRequest();
 
-            return CreatedAtRoute("DefaultApi", new { id = picture.Id }, picture);
-        }
+            var fileName = Path.GetFileName(file.FileName);
+            byte[] fileContents;
 
-        // POST: api/Pictures/{id}
-        [ResponseType(typeof(PictureDTO))]
-        public async Task<IHttpActionResult> PostPictureMetadata(PictureDTO picture)
-        {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest(ModelState);
-            //}
+            using (var binaryReader = new BinaryReader(file.InputStream))
+                fileContents = binaryReader.ReadBytes(file.ContentLength);
 
-            // manager call to post picture metadata
+            var pictureDto = new PictureDTO
+            {
+                FileName = fileName,
+                Contents = fileContents
+            };
 
-            return CreatedAtRoute("DefaultApi", new { id = picture.Id }, picture);
+            var completedEntry = await _picturesManager.AddPicture(pictureDto);
+
+            return Created($"api/Pictures/{completedEntry.Id}", completedEntry);
         }
 
         // DELETE: api/Pictures/5

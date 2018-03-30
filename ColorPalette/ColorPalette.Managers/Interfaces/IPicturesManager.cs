@@ -8,8 +8,7 @@ namespace ColorPalette.Managers.Interfaces
     {
         Task<List<PictureDTO>> GetAllPictures();
         Task<PictureDTO> GetPicture(int id);
-        Task<PictureDTO> AddPictureContents(byte[] contents);
-        Task<bool> AddPictureMetadata(PictureDTO pictureDto);
+        Task<PictureDTO> AddPicture(PictureDTO picture);
         Task<bool> DeletePicture(int id);
     }
 }

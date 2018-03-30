@@ -8,8 +8,7 @@ namespace ColorPalette.Repositories.Interfaces
     {
         Task<List<PictureDTO>> GetAllAsync();
         Task<PictureDTO> GetAsync(int id);
-        Task<PictureDTO> AddContentsAsync(byte[] contents);
-        Task<bool> AddMetadataAsync(PictureDTO pictureDto);
+        Task<PictureDTO> AddAsync(PictureDTO picture);
         Task<bool> DeleteAsync(int id);
     }
 }

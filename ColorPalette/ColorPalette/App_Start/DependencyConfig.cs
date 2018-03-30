@@ -19,7 +19,7 @@ namespace ColorPalette
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterType<ColorPaletteContext>();
+            builder.RegisterType<ColorPaletteContext>().As<IColorPaletteContext>();
             builder.RegisterType<PicturesRepository>().As<IPicturesRepository>();
             builder.RegisterType<PicturesManager>().As<IPicturesManager>();
 

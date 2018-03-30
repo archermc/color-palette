@@ -25,19 +25,25 @@ namespace ColorPalette.Managers
             return await _picturesRepository.GetAsync(id);
         }
 
-        public async Task<PictureDTO> AddPictureContents(byte[] contents)
+        public async Task<PictureDTO> AddPicture(PictureDTO picture)
         {
-            return await _picturesRepository.AddContentsAsync(contents);
-        }
+            picture.ColorSwaths = GenerateColorSwaths(picture.Contents);
 
-        public async Task<bool> AddPictureMetadata(PictureDTO pictureDto)
-        {
-            return await _picturesRepository.AddMetadataAsync(pictureDto);
+            return await _picturesRepository.AddAsync(picture);
         }
 
         public async Task<bool> DeletePicture(int id)
         {
             return await _picturesRepository.DeleteAsync(id);
         }
+
+        #region Helper Methods
+
+        private List<int[]> GenerateColorSwaths(byte[] contents)
+        {
+            return null;
+        }
+
+        #endregion
     }
 }
