@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace ColorPalette.Managers
@@ -48,11 +49,31 @@ namespace ColorPalette.Managers
 
         private List<int[]> GenerateColorSwaths(Bitmap image)
         {
-            var bmpData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly,
-                PixelFormat.Format24bppRgb);
+            // set up our variables: the pixel count and the area of the bitmap for easy reference
+            const int PIXEL_COUNT = 3;
+            var bmpArea = image.Width * image.Height;
 
-            //var hsvEntries = colorPalette.Entries.Select(ConvertRGBToHSV).ToList();
-            //var sortedEntries = SortAndSeparateHsvValues(hsvEntries);
+            // create the array that will hold the rgb values as well as the one that will hold the hsv values
+            var pixelBois = new byte[bmpArea * PIXEL_COUNT];
+            var hsvValues = new Hsv[bmpArea];
+
+            var bmpData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly,
+                image.PixelFormat); // or PixelFormat.Format24bppRgb 
+
+            // copy the bytes into a byte array the length of the image's dimensions * 3 (for each R G B value)
+            Marshal.Copy(bmpData.Scan0, pixelBois, 0, pixelBois.Length);
+
+            for (int i = 0; i < bmpArea; i += PIXEL_COUNT)
+            {
+                // create a color object with the RGB values reversed as the storage from the int* pointer goes BGR
+                // Shout out to github.com/programmingthomas for helping resolve this problem
+                var c = Color.FromArgb(pixelBois[i + 2], pixelBois[i + 1], pixelBois[i]);
+
+                // convert it to HSV and store it in the corresponding HSV array (divided by 3 since each represents a whole pixel value)
+                hsvValues[i / PIXEL_COUNT] = ConvertRGBToHSV(c);
+            }
+
+            var sortedEntries = SortAndFormatHsvValues(hsvValues.ToList());
 
             return new List<int[]>();
         }
@@ -60,9 +81,9 @@ namespace ColorPalette.Managers
         private Hsv ConvertRGBToHSV(Color pixel)
         {
             // find the percent value of each color
-            var red = pixel.R / SCALE;
-            var green = pixel.G / SCALE;
-            var blue = pixel.B / SCALE;
+            var red = (float)pixel.R / SCALE;
+            var green = (float)pixel.G / SCALE;
+            var blue = (float)pixel.B / SCALE;
 
             // find the minimum and maximum of the percentage values
             var max = Math.Max(red, Math.Max(green, blue));
@@ -72,15 +93,18 @@ namespace ColorPalette.Managers
             var delta = max - min;
 
             // get ready to set the raw hue before it is scaled
-            var rawHue = 0;
+            float rawHue = 0;
 
             // operate differently on hue depending on which color is the max
-            if (max == red)
-                rawHue = (green - blue) / delta;
-            else if (max == green)
-                rawHue = ((blue - red) / delta) + 2;
-            else if (max == blue)
-                rawHue = ((red - green) / delta) + 4;
+            if (delta != 0)
+            {
+                if (max == red)
+                    rawHue = (green - blue) / delta;
+                else if (max == green)
+                    rawHue = (blue - red) / delta + 2;
+                else if (max == blue)
+                    rawHue = (red - green) / delta + 4;
+            }
 
             // scale hue
             var hue = rawHue * SCALE;
@@ -90,19 +114,30 @@ namespace ColorPalette.Managers
 
             // find the saturation, which is 0 if value is 0 else it's delta - value which we then scale
             var saturation = value == 0 ? 0 :
-                (delta / value) * SCALE;
+                delta / value * SCALE;
 
             // return our lovely HSV object
             return new Hsv { Hue = hue, Saturation = saturation, Value = value };
         }
 
-        private List<List<Hsv>> SortAndSeparateHsvValues(List<Hsv> values)
+        private List<List<Hsv>> SortAndFormatHsvValues(List<Hsv> values)
         {
+            const int NUMBER_OF_SWATHS = 7;
+            List<List<Hsv>> sortedRawSwaths;
+
             if (values == null || values.Count == 1)
                 return null;
 
             // sort HSV values by Hue first off
-             values.Sort((a,b) => a.Hue.CompareTo(b.Hue));
+            values.Sort((a,b) => a.Hue.CompareTo(b.Hue));
+
+            var entriesPerSwath = values.Count / NUMBER_OF_SWATHS;
+            for (int i = 0; i < values.Count; i += entriesPerSwath)
+            {
+                var sample = values.Skip(entriesPerSwath * i).Take(entriesPerSwath);
+
+                continue;
+            }
 
             return new List<List<Hsv>>();
         }
@@ -110,9 +145,9 @@ namespace ColorPalette.Managers
         // make a kiddie shit POCO to hold our values
         private class Hsv
         {
-            public int Hue { get; set; }
-            public int Saturation { get; set; }
-            public int Value { get; set; }
+            public float Hue { get; set; }
+            public float Saturation { get; set; }
+            public float Value { get; set; }
         }
 
         #endregion
