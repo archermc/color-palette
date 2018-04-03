@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ColorPalette.Objects.DTOs
 {
@@ -8,5 +9,22 @@ namespace ColorPalette.Objects.DTOs
         public string FileName { get; set; }
         public byte[] Contents { get; set; }
         public List<int[]> ColorSwaths { get; set; }
+
+        public string ColorSwathsAsString
+        {
+            get
+            {
+                return string.Join(
+                    ",", ColorSwaths.Select(
+                        s => string.Join(
+                            ",", s.Select(
+                                c => c.ToString()
+                            ).ToArray()
+                        )
+                    ).ToArray()
+                );
+            }
+        }
+
     }
 }

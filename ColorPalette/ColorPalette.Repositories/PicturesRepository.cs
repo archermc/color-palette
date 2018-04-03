@@ -52,7 +52,8 @@ namespace ColorPalette.Repositories
             var newPicture = _dbContext.Pictures.Add(new Picture
             {
                 FileName = picture.FileName,
-                Contents = picture.Contents
+                Contents = picture.Contents,
+                ColorSwaths = picture.ColorSwathsAsString
             });
 
             await _dbContext.SaveChangesAsync();
@@ -85,7 +86,20 @@ namespace ColorPalette.Repositories
             if (rawInput.IsNullOrEmpty())
                 return null;
 
-            return null;
+            var pixelList = rawInput.Split(',');
+            var toReturn = new List<int[]>();
+
+            for (int i = 0; i < pixelList.Length; i += 3)
+            {
+                toReturn.Add(new []
+                {
+                    int.Parse(pixelList[i]),
+                    int.Parse(pixelList[i+1]),
+                    int.Parse(pixelList[i+2])
+                });
+            }
+
+            return toReturn.Count > 0 ? toReturn : null;
         }
 
         //private bool PictureExists(int id)
