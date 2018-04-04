@@ -10,20 +10,17 @@ namespace ColorPalette.Objects.DTOs
         public byte[] Contents { get; set; }
         public List<int[]> ColorSwaths { get; set; }
 
-        public string ColorSwathsAsString
+        public string GetColorSwathsAsString()
         {
-            get
-            {
-                return string.Join(
-                    ",", ColorSwaths.Select(
-                        s => string.Join(
-                            ",", s.Select(
-                                c => c.ToString()
-                            ).ToArray()
-                        )
-                    ).ToArray()
-                );
-            }
+            return string.Join(
+                ",", ColorSwaths.Select(
+                    s => string.Join(
+                        ",", s.Select(
+                            c => c.ToString()
+                        ).ToArray()
+                    )
+                ).ToArray()
+            );
         }
 
     }

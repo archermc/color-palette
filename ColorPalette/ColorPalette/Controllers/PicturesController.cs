@@ -19,9 +19,13 @@ namespace ColorPalette.Controllers
         }
 
         // GET: api/Pictures
-        public async Task<List<PictureDTO>> GetPictures()
+        [ResponseType(typeof(List<PictureDTO>))]
+        [HttpGet, Route("api/pictures")]
+        public async Task<IHttpActionResult> GetPictures()
         {
-            return await _picturesManager.GetAllPictures();
+            var allPictures = await _picturesManager.GetAllPictures();
+
+            return Ok(allPictures);
         }
 
         // GET: api/Pictures/5

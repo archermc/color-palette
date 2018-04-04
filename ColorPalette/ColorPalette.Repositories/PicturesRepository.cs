@@ -53,7 +53,7 @@ namespace ColorPalette.Repositories
             {
                 FileName = picture.FileName,
                 Contents = picture.Contents,
-                ColorSwaths = picture.ColorSwathsAsString
+                ColorSwaths = picture.GetColorSwathsAsString()
             });
 
             await _dbContext.SaveChangesAsync();
