@@ -1,0 +1,20 @@
+<div style="text-align:center">
+  <h2 class="jumbotron bg-secondary text-white">Color Palette</h2>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <cp-canvas></cp-canvas>
+  </div>
+  <div class="col-md-4">
+    <cp-swatch-list></cp-swatch-list>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8 button-section">
+    <cp-file></cp-file>
+    <cp-button [label]="'Upload'" (buttonClicked)="uploadImage()"></cp-button>
+  </div>
+  <div class="col-md-4 button-section">
+    <cp-button [label]="'Reset'" (buttonClicked)="resetImage()"></cp-button>
+  </div>
+</div>

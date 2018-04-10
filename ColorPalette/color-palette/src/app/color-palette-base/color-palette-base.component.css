@@ -1,0 +1,8 @@
+.button-section {
+    display: inline-flex;
+}
+
+label {
+    padding-top: 10px;
+    padding-left: 10px;
+}
