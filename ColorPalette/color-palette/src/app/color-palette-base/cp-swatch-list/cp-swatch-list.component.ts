@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Swatch } from '../shared/swatch.model';
+import { ColorPaletteService } from '../shared/color-palette.service';
+import { Observable } from 'rxjs/observable';
 
 @Component({
   selector: 'cp-swatch-list',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CpSwatchListComponent implements OnInit {
 
-  constructor() { }
+  swatches : Swatch[];
+
+  constructor(private colorPaletteService : ColorPaletteService) { }
 
   ngOnInit() {
+    this.colorPaletteService.swatchesObservable.subscribe(res => {
+      console.log('UPDOOTING');
+      console.log(res);
+      this.swatches = res;
+    });
   }
 
 }

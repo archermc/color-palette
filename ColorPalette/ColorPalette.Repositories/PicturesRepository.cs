@@ -81,25 +81,25 @@ namespace ColorPalette.Repositories
 
         #region Helper Methods
 
-        private List<int[]> FormatColorSwaths(string rawInput)
+        private SwathDTO[] FormatColorSwaths(string rawInput)
         {
             if (rawInput.IsNullOrEmpty())
                 return null;
 
             var pixelList = rawInput.Split(',');
-            var toReturn = new List<int[]>();
+            var toReturn = new List<SwathDTO>();
 
             for (int i = 0; i < pixelList.Length; i += 3)
             {
-                toReturn.Add(new []
+                toReturn.Add(new SwathDTO
                 {
-                    int.Parse(pixelList[i]),
-                    int.Parse(pixelList[i+1]),
-                    int.Parse(pixelList[i+2])
+                    R = int.Parse(pixelList[i]),
+                    G = int.Parse(pixelList[i + 1]),
+                    B = int.Parse(pixelList[i + 2])
                 });
             }
 
-            return toReturn.Count > 0 ? toReturn : null;
+            return toReturn.Count > 0 ? toReturn.ToArray() : null;
         }
 
         //private bool PictureExists(int id)

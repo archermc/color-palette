@@ -8,19 +8,13 @@ namespace ColorPalette.Objects.DTOs
         public int  Id { get; set; }
         public string FileName { get; set; }
         public byte[] Contents { get; set; }
-        public List<int[]> ColorSwaths { get; set; }
+        public SwathDTO[] ColorSwaths { get; set; }
 
         public string GetColorSwathsAsString()
         {
             return string.Join(
-                ",", ColorSwaths.Select(
-                    s => string.Join(
-                        ",", s.Select(
-                            c => c.ToString()
-                        ).ToArray()
-                    )
-                ).ToArray()
-            );
+                ",", ColorSwaths.Select(swath => string.Join(",", swath.Explode()))
+                .ToArray());
         }
 
     }

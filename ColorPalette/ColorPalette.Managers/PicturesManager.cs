@@ -36,7 +36,9 @@ namespace ColorPalette.Managers
             using (var image = (Bitmap)Image.FromStream(new MemoryStream(picture.Contents)))
                 picture.ColorSwaths = GenerateColorSwaths(image);
 
-            return await _picturesRepository.AddAsync(picture);
+            var result = await _picturesRepository.AddAsync(picture);
+
+            return result;
         }
 
         public async Task<bool> DeletePicture(int id)
@@ -46,7 +48,7 @@ namespace ColorPalette.Managers
 
         #region Helper Methods
 
-        private List<int[]> GenerateColorSwaths(Bitmap image)
+        private SwathDTO[] GenerateColorSwaths(Bitmap image)
         {
             // set up our variables: the pixel count and the area of the bitmap for easy reference
             const int PIXEL_COUNT = 3;
@@ -81,7 +83,7 @@ namespace ColorPalette.Managers
             }
 
             var hsvSwaths = SortByHueAndFormatHsvValues(hsvValues.ToList());
-            var rgbSwaths = hsvSwaths.Select(hsv => hsv.ToRGB()).ToList();
+            var rgbSwaths = hsvSwaths.Select(hsv => new SwathDTO(hsv.ToRGB())).ToArray();
 
             return rgbSwaths;
         }

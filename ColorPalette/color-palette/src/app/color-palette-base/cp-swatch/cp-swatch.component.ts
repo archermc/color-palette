@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Swatch } from '../shared/swatch.model';
 
 @Component({
   selector: 'cp-swatch',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cp-swatch.component.css']
 })
 export class CpSwatchComponent implements OnInit {
+  @Input() swatch : Swatch;
 
   constructor() { }
 

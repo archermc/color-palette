@@ -1,3 +1,5 @@
-<p>
-  cp-swatch-list works!
-</p>
+<table>
+  <tr *ngFor='let swatch of swatches'>
+    <cp-swatch [swatch]='swatch'></cp-swatch>
+  </tr>
+</table>

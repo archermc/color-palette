@@ -40,16 +40,22 @@ namespace ColorPalette.Controllers
             return Ok(picture);
         }
 
+        [HttpPost, Route("api/test")]
+        public async Task<IHttpActionResult> TestPicture()
+        {
+            return Ok();
+        }
+
         // POST: api/Pictures
-        [ResponseType(typeof(PictureDTO))]
+        [ResponseType(typeof(SwathDTO[]))]
         [HttpPost, Route("api/pictures")]
-        public async Task<IHttpActionResult> PostPicture()
+        public async Task<SwathDTO[]> PostPicture()
         {
             var file = HttpContext.Current.Request.Files.Count == 1 ?
                     HttpContext.Current.Request.Files[0] : null;
 
             if (file == null || file.ContentLength == 0)
-                return BadRequest();
+                return null; //BadRequest();
 
             var fileName = Path.GetFileName(file.FileName);
             byte[] fileContents;
@@ -65,7 +71,8 @@ namespace ColorPalette.Controllers
 
             var completedEntry = await _picturesManager.AddPicture(pictureDto);
 
-            return Created($"api/Pictures/{completedEntry.Id}", completedEntry);
+            return completedEntry.ColorSwaths;
+            //return Created($"api/Pictures/{completedEntry.Id}", completedEntry.ColorSwaths);
         }
 
         // DELETE: api/Pictures/5

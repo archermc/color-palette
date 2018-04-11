@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorPalette.Helpers", "Col
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorPalette.Managers", "ColorPalette.Managers\ColorPalette.Managers.csproj", "{B947087E-C36A-4782-A215-A8F8A609074F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "color-palette", "color-palette", "{0898627A-FB30-4448-94E1-84ADD133250F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "color-palette", "color-palette\color-palette.csproj", "{BFE04D99-F854-44F0-B408-D43B24CE84FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +43,16 @@ Global
 		{B947087E-C36A-4782-A215-A8F8A609074F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B947087E-C36A-4782-A215-A8F8A609074F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B947087E-C36A-4782-A215-A8F8A609074F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFE04D99-F854-44F0-B408-D43B24CE84FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFE04D99-F854-44F0-B408-D43B24CE84FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFE04D99-F854-44F0-B408-D43B24CE84FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFE04D99-F854-44F0-B408-D43B24CE84FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BFE04D99-F854-44F0-B408-D43B24CE84FE} = {0898627A-FB30-4448-94E1-84ADD133250F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {683FEE65-AB62-43DA-B5E5-A6D2F1092BD9}
