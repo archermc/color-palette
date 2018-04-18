@@ -40,12 +40,6 @@ namespace ColorPalette.Controllers
             return Ok(picture);
         }
 
-        [HttpPost, Route("api/test")]
-        public async Task<IHttpActionResult> TestPicture()
-        {
-            return Ok();
-        }
-
         // POST: api/Pictures
         [ResponseType(typeof(SwathDTO[]))]
         [HttpPost, Route("api/pictures")]
@@ -79,8 +73,8 @@ namespace ColorPalette.Controllers
         [ResponseType(typeof(PictureDTO))]
         public async Task<IHttpActionResult> DeletePicture(int id)
         {
-            PictureDTO pictureDto = null; // manager call
-            if (pictureDto == null)
+            var result = await _picturesManager.DeletePicture(id);
+            if (!result)
             {
                 return NotFound();
             }

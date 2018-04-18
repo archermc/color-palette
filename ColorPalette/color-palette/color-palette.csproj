@@ -40,8 +40,61 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".angular-cli.json" />
+    <None Include=".editorconfig" />
+    <None Include="package-lock.json" />
+    <None Include="package.json" />
+    <None Include="README.md" />
+    <None Include="src\assets\.gitkeep" />
+    <None Include="src\tsconfig.app.json" />
+    <None Include="src\tsconfig.spec.json" />
+    <None Include="tsconfig.json" />
+    <None Include="tslint.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="karma.conf.js" />
+    <Content Include="protractor.conf.js" />
+    <Content Include="src\app\app.component.css" />
+    <Content Include="src\app\app.component.html" />
+    <Content Include="src\app\color-palette-base\color-palette-base.component.css" />
+    <Content Include="src\app\color-palette-base\color-palette-base.component.html" />
+    <Content Include="src\app\color-palette-base\cp-button\cp-button.component.css" />
+    <Content Include="src\app\color-palette-base\cp-button\cp-button.component.html" />
+    <Content Include="src\app\color-palette-base\cp-canvas\cp-canvas.component.css" />
+    <Content Include="src\app\color-palette-base\cp-canvas\cp-canvas.component.html" />
+    <Content Include="src\app\color-palette-base\cp-file\cp-file.component.css" />
+    <Content Include="src\app\color-palette-base\cp-file\cp-file.component.html" />
+    <Content Include="src\app\color-palette-base\cp-swatch-list\cp-swatch-list.component.css" />
+    <Content Include="src\app\color-palette-base\cp-swatch-list\cp-swatch-list.component.html" />
+    <Content Include="src\app\color-palette-base\cp-swatch\cp-swatch.component.css" />
+    <Content Include="src\app\color-palette-base\cp-swatch\cp-swatch.component.html" />
+    <Content Include="src\favicon.ico" />
+    <Content Include="src\index.html" />
+    <Content Include="src\styles.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="src\app\app.component.ts" />
+    <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\color-palette-base\color-palette-base.component.ts" />
+    <TypeScriptCompile Include="src\app\color-palette-base\cp-button\cp-button.component.ts" />
+    <TypeScriptCompile Include="src\app\color-palette-base\cp-canvas\cp-canvas.component.ts" />
+    <TypeScriptCompile Include="src\app\color-palette-base\cp-file\cp-file.component.ts" />
+    <TypeScriptCompile Include="src\app\color-palette-base\cp-swatch-list\cp-swatch-list.component.ts" />
+    <TypeScriptCompile Include="src\app\color-palette-base\cp-swatch\cp-swatch.component.ts" />
+    <TypeScriptCompile Include="src\app\color-palette-base\shared\color-palette.service.ts" />
+    <TypeScriptCompile Include="src\app\color-palette-base\shared\http.service.ts" />
+    <TypeScriptCompile Include="src\app\color-palette-base\shared\swatch.model.ts" />
+    <TypeScriptCompile Include="src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="src\environments\environment.ts" />
+    <TypeScriptCompile Include="src\main.ts" />
+    <TypeScriptCompile Include="src\polyfills.ts" />
+    <TypeScriptCompile Include="src\test.ts" />
+    <TypeScriptCompile Include="src\typings.d.ts" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
