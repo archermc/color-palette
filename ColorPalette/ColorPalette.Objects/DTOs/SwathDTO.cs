@@ -17,6 +17,10 @@
             B = rgb[2];
         }
 
+        /// <summary>
+        /// Emits string[] representation of Swath value as [R, G, B]
+        /// </summary>
+        /// <returns>string[] in form of [R, G, B]</returns>
         public string[] Explode()
         {
             return new string[] { R.ToString(), G.ToString(), B.ToString() };

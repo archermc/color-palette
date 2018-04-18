@@ -7,6 +7,7 @@ namespace ColorPalette.Repositories.Models
     {
         public ColorPaletteContext() : base("name=ColorPaletteContext")
         {
+            // Set log variable so that we can make sure the SQL queries generated aren't inefficient
             Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
         }
 

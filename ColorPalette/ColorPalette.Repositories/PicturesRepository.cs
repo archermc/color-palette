@@ -18,6 +18,10 @@ namespace ColorPalette.Repositories
             _dbContext = context;
         }
 
+        /// <summary>
+        /// Gets every picture in the database
+        /// </summary>
+        /// <returns>List of Picture DTOs that represent every entry in the database</returns>
         public async Task<List<PictureDTO>> GetAllAsync()
         {
             var pictures = await _dbContext.Pictures.ToListAsync();
@@ -31,6 +35,11 @@ namespace ColorPalette.Repositories
             }).ToList();
         }
 
+        /// <summary>
+        /// Gets a specific picture from the database based on a unique identifier
+        /// </summary>
+        /// <param name="id">Unique identifier tied to the picture</param>
+        /// <returns>Picture DTO representing picture object in the database</returns>
         public async Task<PictureDTO> GetAsync(int id)
         {
             var picture = await _dbContext.Pictures.SingleOrDefaultAsync(p => p.Id == id);
@@ -47,6 +56,11 @@ namespace ColorPalette.Repositories
             };
         }
 
+        /// <summary>
+        /// Adds a picture object from the database and creates a new PictureDTO
+        /// </summary>
+        /// <param name="picture">PictureDTO that represents the picture to add to the database</param>
+        /// <returns>PictureDTO represeting the object created in the database</returns>
         public async Task<PictureDTO> AddAsync(PictureDTO picture)
         {
             var newPicture = _dbContext.Pictures.Add(new Picture
@@ -67,6 +81,11 @@ namespace ColorPalette.Repositories
             };
         }
 
+        /// <summary>
+        /// Deletes a picture object from the database and returns the result in boolean form
+        /// </summary>
+        /// <param name="id">Unique identifier for the </param>
+        /// <returns></returns>
         public async Task<bool> DeleteAsync(int id)
         {
             var picture = new Picture {Id = id};

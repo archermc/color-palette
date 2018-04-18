@@ -21,18 +21,34 @@ namespace ColorPalette.Managers
             _picturesRepository = picturesRepository;
         }
 
+        /// <summary>
+        /// Returns all pictures in the DB
+        /// </summary>
+        /// <returns>All pictures in DB</returns>
         public async Task<List<PictureDTO>> GetAllPictures()
         {
             return await _picturesRepository.GetAllAsync();
         }
 
+        /// <summary>
+        /// Returns a specific picture in the DB by ID
+        /// </summary>
+        /// <param name="id">Unique identifier of photo to return</param>
+        /// <returns>Picture DTO corresponding to identifier provided</returns>
         public async Task<PictureDTO> GetPicture(int id)
         {
             return await _picturesRepository.GetAsync(id);
         }
 
+        /// <summary>
+        /// Adds a picture to the DB, generating color swaths beforehand
+        /// </summary>
+        /// <param name="picture"></param>
+        /// <returns>Picture DTO object representing the object created in DB</returns>
         public async Task<PictureDTO> AddPicture(PictureDTO picture)
         {
+            // Read the image from stream, convert it to Bitmap, and generate the swaths with it
+            // in one using simply so that both the image and MemoryStream will dispose after being used
             using (var image = (Bitmap)Image.FromStream(new MemoryStream(picture.Contents)))
                 picture.ColorSwaths = GenerateColorSwaths(image);
 
@@ -41,6 +57,11 @@ namespace ColorPalette.Managers
             return result;
         }
 
+        /// <summary>
+        /// Remove a picture from the DB based on the unique identifier
+        /// </summary>
+        /// <param name="id">Unique identifier of picture to delete</param>
+        /// <returns>Boolean value representing success of deletion</returns>
         public async Task<bool> DeletePicture(int id)
         {
             return await _picturesRepository.DeleteAsync(id);
@@ -48,6 +69,11 @@ namespace ColorPalette.Managers
 
         #region Helper Methods
 
+        /// <summary>
+        /// Generates a set of swathes based on an image passed in; default number of swathes is 7
+        /// </summary>
+        /// <param name="image">Bitmap of image that we want to generate swatches </param>
+        /// <returns>Array of SwathDTOs (essentially int arrays of RGB values) representing 7 colors picked based on whatever algorithm we use</returns>
         private SwathDTO[] GenerateColorSwaths(Bitmap image)
         {
             // set up our variables: the pixel count and the area of the bitmap for easy reference
@@ -88,6 +114,12 @@ namespace ColorPalette.Managers
             return rgbSwaths;
         }
 
+        /// <summary>
+        /// One algorithmic method of finding the colors that we return from our GenerateColorSwaths(Bitmap) method; sorts
+        /// the hues of a picture, separates the array into 7 equal parts, and finds the median of each part to return
+        /// </summary>
+        /// <param name="values">Unsorted array of HSV values from a picture</param>
+        /// <returns>List of representative pixels in HSV form from the picture</returns>
         private List<Hsv> SortByHueAndFormatHsvValues(List<Hsv> values)
         {
             const int NUMBER_OF_SWATHS = 7;
@@ -103,12 +135,10 @@ namespace ColorPalette.Managers
 
             for (int i = 0; i < NUMBER_OF_SWATHS; i++)
             {
+                // separate the entire value pool into individual parts
                 var sample = values.Skip(entriesPerSwath * i).Take(entriesPerSwath).ToList();
 
-                //var medianHue = sample[entriesPerSwath / 2].Hue;
-                //var normalizedSaturation = sample.Select(s => s.Saturation).Average();
-                //var normalizedValue = sample.Select(s => s.Value).Average();
-
+                // find median of each value
                 var medianHue = sample[entriesPerSwath / 2].Hue;
                 var normalizedSaturation = sample[entriesPerSwath / 2].Saturation;
                 var normalizedValue = sample[entriesPerSwath / 2].Value;

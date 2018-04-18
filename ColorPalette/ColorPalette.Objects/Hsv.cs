@@ -22,6 +22,10 @@ namespace ColorPalette.Objects
             Value = value;
         }
 
+        /// <summary>
+        /// Constructor of HSV that takes in an RGB Color value and converts it to HSV
+        /// </summary>
+        /// <param name="pixel">Color object containing an RGB value to convert to HSV</param>
         public Hsv(Color pixel)
         {
             // find the percent value of each color
@@ -71,10 +75,14 @@ namespace ColorPalette.Objects
             Value = value;
         }
 
-        // well I just realized that you can render colors in html with HSB not HSV but fuck it
+        // well I just realized that you can render colors in html with HSB not HSV
         // we'll try it with converting it back to RGB and displaying first
         //
         // derived from: https://www.rapidtables.com/convert/color/hsv-to-rgb.html
+        /// <summary>
+        /// Converts the HSV values contained within to RGB values in int[] form
+        /// </summary>
+        /// <returns>int[] representing RGB values correspondent to this HSV object's values</returns>
         public int[] ToRGB()
         {
             // some voodoo regarding calculated values that we'll used based on the degree that
