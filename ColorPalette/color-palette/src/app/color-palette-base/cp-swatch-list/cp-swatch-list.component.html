@@ -1,5 +1,5 @@
-<table>
-  <tr *ngFor='let swatch of swatches'>
-    <cp-swatch [swatch]='swatch'></cp-swatch>
+<table class='swatch-list'>
+  <tr *ngFor='let swatch of colorPaletteService.swatches'>
+    <cp-swatch class="swatch-row" [swatch]='swatch'></cp-swatch>
   </tr>
 </table>

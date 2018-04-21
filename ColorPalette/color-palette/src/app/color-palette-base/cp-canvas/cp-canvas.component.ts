@@ -8,9 +8,12 @@ import {ColorPaletteService} from '../shared/color-palette.service';
 })
 export class CpCanvasComponent implements OnInit {
 
-  constructor(private paletteService : ColorPaletteService) { }
+  constructor(private colorPaletteService : ColorPaletteService) { }
 
   ngOnInit() {
   }
 
+  getImageUrl() {
+    return this.colorPaletteService.imgUrl;
+  }
 }

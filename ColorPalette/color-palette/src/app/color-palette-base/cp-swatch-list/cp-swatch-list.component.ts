@@ -9,17 +9,7 @@ import { Observable } from 'rxjs/observable';
   styleUrls: ['./cp-swatch-list.component.css']
 })
 export class CpSwatchListComponent implements OnInit {
-
-  swatches : Swatch[];
-
   constructor(private colorPaletteService : ColorPaletteService) { }
 
-  ngOnInit() {
-    this.colorPaletteService.swatchesObservable.subscribe(res => {
-      console.log('UPDOOTING');
-      console.log(res);
-      this.swatches = res;
-    });
-  }
-
+  ngOnInit() { }
 }

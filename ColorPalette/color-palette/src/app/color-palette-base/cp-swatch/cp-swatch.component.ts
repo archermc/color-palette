@@ -14,4 +14,8 @@ export class CpSwatchComponent implements OnInit {
   ngOnInit() {
   }
 
+  getBackgroundColor() {
+    var b = 'rgb(' + this.swatch.R + ',' + this.swatch.G + ',' + this.swatch.B + ')';
+    return b;
+  }
 }
