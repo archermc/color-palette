@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs\PictureDTO.cs" />
-    <Compile Include="DTOs\SwathDTO.cs" />
+    <Compile Include="DTOs\SwatchDTO.cs" />
     <Compile Include="Hsv.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

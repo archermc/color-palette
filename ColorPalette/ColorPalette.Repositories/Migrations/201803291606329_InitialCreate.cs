@@ -14,7 +14,7 @@ namespace ColorPalette.Repositories.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         FileName = c.String(),
                         Contents = c.Binary(),
-                        ColorSwaths = c.String(),
+                        ColorsSwatches = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             

@@ -31,7 +31,7 @@ namespace ColorPalette.Repositories
                 Id = p.Id,
                 FileName = p.FileName,
                 Contents = p.Contents,
-                ColorSwaths = FormatColorSwaths(p.ColorSwaths)
+                ColorSwatches = FormatColorSwatches(p.ColorSwatches)
             }).ToList();
         }
 
@@ -51,7 +51,7 @@ namespace ColorPalette.Repositories
             {
                 Id = picture.Id,
                 FileName = picture.FileName,
-                ColorSwaths = FormatColorSwaths(picture.ColorSwaths),
+                ColorSwatches = FormatColorSwatches(picture.ColorSwatches),
                 Contents = picture.Contents
             };
         }
@@ -67,7 +67,7 @@ namespace ColorPalette.Repositories
             {
                 FileName = picture.FileName,
                 Contents = picture.Contents,
-                ColorSwaths = picture.GetColorSwathsAsString()
+                ColorSwatches = picture.GetColorSwatchesAsString()
             });
 
             await _dbContext.SaveChangesAsync();
@@ -77,7 +77,7 @@ namespace ColorPalette.Repositories
                 Id = newPicture.Id,
                 FileName = newPicture.FileName,
                 Contents = newPicture.Contents,
-                ColorSwaths = FormatColorSwaths(newPicture.ColorSwaths)
+                ColorSwatches = FormatColorSwatches(newPicture.ColorSwatches)
             };
         }
 
@@ -100,17 +100,17 @@ namespace ColorPalette.Repositories
 
         #region Helper Methods
 
-        private SwathDTO[] FormatColorSwaths(string rawInput)
+        private SwatchDTO[] FormatColorSwatches(string rawInput)
         {
             if (rawInput.IsNullOrEmpty())
                 return null;
 
             var pixelList = rawInput.Split(',');
-            var toReturn = new List<SwathDTO>();
+            var toReturn = new List<SwatchDTO>();
 
             for (int i = 0; i < pixelList.Length; i += 3)
             {
-                toReturn.Add(new SwathDTO
+                toReturn.Add(new SwatchDTO
                 {
                     R = int.Parse(pixelList[i]),
                     G = int.Parse(pixelList[i + 1]),
@@ -130,7 +130,7 @@ namespace ColorPalette.Repositories
         //private Picture UpdatePicture(Picture picture, PictureDTO pictureDto)
         //{
         //    picture.FileName = pictureDto.FileName;
-        //    picture.ColorSwaths = pictureDto.ColorSwaths.ToString();
+        //    picture.ColorSwatches = pictureDto.ColorSwatches.ToString();
         //    picture.Contents = pictureDto.Contents;
 
         //    return picture;

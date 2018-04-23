@@ -41,16 +41,16 @@ namespace ColorPalette.Managers
         }
 
         /// <summary>
-        /// Adds a picture to the DB, generating color swaths beforehand
+        /// Adds a picture to the DB, generating color swatches beforehand
         /// </summary>
         /// <param name="picture"></param>
         /// <returns>Picture DTO object representing the object created in DB</returns>
         public async Task<PictureDTO> AddPicture(PictureDTO picture)
         {
-            // Read the image from stream, convert it to Bitmap, and generate the swaths with it
+            // Read the image from stream, convert it to Bitmap, and generate the swatches with it
             // in one using simply so that both the image and MemoryStream will dispose after being used
             using (var image = (Bitmap)Image.FromStream(new MemoryStream(picture.Contents)))
-                picture.ColorSwaths = GenerateColorSwaths(image);
+                picture.ColorSwatches = GenerateColorSwatches(image);
 
             var result = await _picturesRepository.AddAsync(picture);
 
@@ -70,11 +70,11 @@ namespace ColorPalette.Managers
         #region Helper Methods
 
         /// <summary>
-        /// Generates a set of swathes based on an image passed in; default number of swathes is 7
+        /// Generates a set of swatches based on an image passed in; default number of swatches is 7
         /// </summary>
         /// <param name="image">Bitmap of image that we want to generate swatches </param>
-        /// <returns>Array of SwathDTOs (essentially int arrays of RGB values) representing 7 colors picked based on whatever algorithm we use</returns>
-        private SwathDTO[] GenerateColorSwaths(Bitmap image)
+        /// <returns>Array of swatchDTOs (essentially int arrays of RGB values) representing 7 colors picked based on whatever algorithm we use</returns>
+        private SwatchDTO[] GenerateColorSwatches(Bitmap image)
         {
             // set up our variables: the pixel count and the area of the bitmap for easy reference
             const int PIXEL_COUNT = 3;
@@ -108,22 +108,22 @@ namespace ColorPalette.Managers
                 hsvValues[i / PIXEL_COUNT] = new Hsv(c);
             }
 
-            var hsvSwaths = SortByHueAndFormatHsvValues(hsvValues.ToList());
-            var rgbSwaths = hsvSwaths.Select(hsv => new SwathDTO(hsv.ToRGB())).ToArray();
+            var hsvSwatches = SortByHueAndFormatHsvValues(hsvValues.ToList());
+            var rgbSwatches = hsvSwatches.Select(hsv => new SwatchDTO(hsv.ToRGB())).ToArray();
 
-            return rgbSwaths;
+            return rgbSwatches;
         }
 
         /// <summary>
-        /// One algorithmic method of finding the colors that we return from our GenerateColorSwaths(Bitmap) method; sorts
+        /// One algorithmic method of finding the colors that we return from our GenerateColorSwatches(Bitmap) method; sorts
         /// the hues of a picture, separates the array into 7 equal parts, and finds the median of each part to return
         /// </summary>
         /// <param name="values">Unsorted array of HSV values from a picture</param>
         /// <returns>List of representative pixels in HSV form from the picture</returns>
         private List<Hsv> SortByHueAndFormatHsvValues(List<Hsv> values)
         {
-            const int NUMBER_OF_SWATHS = 7;
-            List<Hsv> hsvSwaths = new List<Hsv>();
+            const int NUMBER_OF_SWATCHES = 7;
+            List<Hsv> hsvSwatches = new List<Hsv>();
 
             if (values == null || values.Count == 1)
                 return null;
@@ -131,22 +131,22 @@ namespace ColorPalette.Managers
             // sort HSV values by Hue first off
             values.Sort((a,b) => a.Hue.CompareTo(b.Hue));
 
-            var entriesPerSwath = values.Count / NUMBER_OF_SWATHS;
+            var entriesPerSwatch = values.Count / NUMBER_OF_SWATCHES;
 
-            for (int i = 0; i < NUMBER_OF_SWATHS; i++)
+            for (int i = 0; i < NUMBER_OF_SWATCHES; i++)
             {
                 // separate the entire value pool into individual parts
-                var sample = values.Skip(entriesPerSwath * i).Take(entriesPerSwath).ToList();
+                var sample = values.Skip(entriesPerSwatch * i).Take(entriesPerSwatch).ToList();
 
                 // find median of each value
-                var medianHue = sample[entriesPerSwath / 2].Hue;
-                var normalizedSaturation = sample[entriesPerSwath / 2].Saturation;
-                var normalizedValue = sample[entriesPerSwath / 2].Value;
+                var medianHue = sample[entriesPerSwatch / 2].Hue;
+                var normalizedSaturation = sample[entriesPerSwatch / 2].Saturation;
+                var normalizedValue = sample[entriesPerSwatch / 2].Value;
 
-                hsvSwaths.Add(new Hsv(medianHue, normalizedSaturation, normalizedValue));
+                hsvSwatches.Add(new Hsv(medianHue, normalizedSaturation, normalizedValue));
             }
 
-            return hsvSwaths;
+            return hsvSwatches;
         }
 
         #endregion

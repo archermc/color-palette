@@ -41,9 +41,9 @@ namespace ColorPalette.Controllers
         }
 
         // POST: api/Pictures
-        [ResponseType(typeof(SwathDTO[]))]
+        [ResponseType(typeof(SwatchDTO[]))]
         [HttpPost, Route("api/pictures")]
-        public async Task<SwathDTO[]> PostPicture()
+        public async Task<SwatchDTO[]> PostPicture()
         {
             var file = HttpContext.Current.Request.Files.Count == 1 ?
                     HttpContext.Current.Request.Files[0] : null;
@@ -65,8 +65,8 @@ namespace ColorPalette.Controllers
 
             var completedEntry = await _picturesManager.AddPicture(pictureDto);
 
-            return completedEntry.ColorSwaths;
-            //return Created($"api/Pictures/{completedEntry.Id}", completedEntry.ColorSwaths);
+            return completedEntry.ColorSwatches;
+            //return Created($"api/Pictures/{completedEntry.Id}", completedEntry.ColorSwatches);
         }
 
         // DELETE: api/Pictures/5

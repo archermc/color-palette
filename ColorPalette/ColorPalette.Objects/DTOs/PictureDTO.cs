@@ -8,16 +8,16 @@ namespace ColorPalette.Objects.DTOs
         public int  Id { get; set; }
         public string FileName { get; set; }
         public byte[] Contents { get; set; }
-        public SwathDTO[] ColorSwaths { get; set; }
+        public SwatchDTO[] ColorSwatches { get; set; }
 
         /// <summary>
-        /// A method for transforming the SwathDTOs to a comma separated string in order to store it in DB
+        /// A method for transforming the SwatchDTOs to a comma separated string in order to store it in DB
         /// </summary>
         /// <returns>Comma delimited string representing </returns>
-        public string GetColorSwathsAsString()
+        public string GetColorSwatchesAsString()
         {
             return string.Join(
-                ",", ColorSwaths.Select(swath => string.Join(",", swath.Explode()))
+                ",", ColorSwatches.Select(swatch => string.Join(",", swatch.Explode()))
                 .ToArray());
         }
 
