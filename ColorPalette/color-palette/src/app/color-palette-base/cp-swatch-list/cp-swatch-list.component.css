@@ -1,7 +1,25 @@
 .swatch-list {
-    border: 1px solid black;
+    border: 10px solid grey;
+    display: inline-flex;
+    height: 100px;
+    /* background-color: lightgrey; */
+    border-radius: 5px;
+    align-items: center;
 }
 
-.swatch-row {
-    padding-bottom: 20px;
+.swatch-list > div {
+    width: 500px;
+    display: inline-block;
+}
+
+cp-swatch:first-child {
+    padding-left: 20px;
+}
+
+cp-swatch:last-child {
+    padding-right: 20px;
+}
+
+cp-swatch:not(:first-child):not(:last-child) {
+    padding: 0px 10px 0px 10px;
 }

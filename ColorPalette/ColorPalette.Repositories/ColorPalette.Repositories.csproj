@@ -49,9 +49,9 @@
   <ItemGroup>
     <Compile Include="Interfaces\IColorPaletteContext.cs" />
     <Compile Include="Interfaces\IPicturesRepository.cs" />
-    <Compile Include="Migrations\201803291606329_InitialCreate.cs" />
-    <Compile Include="Migrations\201803291606329_InitialCreate.Designer.cs">
-      <DependentUpon>201803291606329_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201804231916352_InitialCreate.cs" />
+    <Compile Include="Migrations\201804231916352_InitialCreate.Designer.cs">
+      <DependentUpon>201804231916352_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ColorPaletteContext.cs" />
@@ -77,8 +77,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201803291606329_InitialCreate.resx">
-      <DependentUpon>201803291606329_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201804231916352_InitialCreate.resx">
+      <DependentUpon>201804231916352_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

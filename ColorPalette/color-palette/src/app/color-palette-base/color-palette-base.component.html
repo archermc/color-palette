@@ -1,20 +1,24 @@
-<div style="text-align:center">
-  <h2 class="jumbotron bg-secondary text-white">Color Palette</h2>
-</div>
-<div class="row">
-  <div class="col-md-8">
-    <cp-canvas></cp-canvas>
-  </div>
-  <div class="col-md-4">
-    <cp-swatch-list></cp-swatch-list>
+<div class="jumbotron bg-secondary">
+  <div class="container">
+    <h2 class="text-white" style="text-align:center">Color Palette Generator</h2>
   </div>
 </div>
-<div class="row">
-  <div class="col-md-8 button-section">
-    <cp-file class="file"></cp-file>
-    <cp-button class="upload" [label]="'Upload'" (buttonClicked)="uploadImage()"></cp-button>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <cp-canvas class="canvas"></cp-canvas>
+    </div>
   </div>
-  <div class="col-md-4 button-section">
-    <cp-button [label]="'Reset'" (buttonClicked)="resetImage()"></cp-button>
+  <div class="row">
+    <cp-swatch-list class="swatch-list col-sm-12"></cp-swatch-list>
+  </div>
+  <div class="row">
+    <div class="col-md-12 button-section">
+      <cp-file class="file"></cp-file>
+      <cp-button class="upload" [label]="'Upload'" (buttonClicked)="uploadImage()"></cp-button>
+      <div class="float-md-right">
+        <cp-button [label]="'Reset'" (buttonClicked)="resetImage()"></cp-button>
+      </div>
+    </div>
   </div>
 </div>

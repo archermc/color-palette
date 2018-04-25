@@ -1,4 +1,18 @@
 .img-container {
-    height: 600px;
-    padding-bottom: 10px;
+    height: 575px;
+    padding: 0px 10px;
+    border: dotted 1px black;
+    border-radius: 5px;
+    background-color: lightgray;
+}
+
+.img-container * {
+    vertical-align: middle;
+}
+
+img {
+    padding-top: 12.5px;
+    max-width: 1000px;
+    max-height: 550px;
+    margin: auto;
 }
