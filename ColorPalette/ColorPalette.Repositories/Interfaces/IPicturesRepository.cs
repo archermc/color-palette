@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using ColorPalette.Objects;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using ColorPalette.Objects.DTOs;
 
 namespace ColorPalette.Repositories.Interfaces
 {
     public interface IPicturesRepository
     {
-        Task<List<PictureDTO>> GetAllAsync();
-        Task<PictureDTO> GetAsync(int id);
-        Task<PictureDTO> AddAsync(PictureDTO picture);
+        Task<List<PictureDto>> GetAllAsync();
+        Task<PictureDto> GetAsync(int id);
+        Task<PictureDto> AddAsync(PictureDto picture);
         Task<bool> DeleteAsync(int id);
     }
 }

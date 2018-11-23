@@ -1,6 +1,6 @@
-﻿using System;
-using ColorPalette.Repositories.Models;
-using System.Data.Entity;
+﻿using ColorPalette.Repositories.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
 
 namespace ColorPalette.Repositories.Interfaces
