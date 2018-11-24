@@ -1,18 +1,18 @@
-﻿using ColorPalette.Objects;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using ColorPalette.Objects;
 using ColorPalette.Repositories.Interfaces;
 using ColorPalette.Repositories.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ColorPalette.Repositories
+namespace ColorPalette.Repositories.Implementations
 {
     public class PicturesRepository : IPicturesRepository
     {
-        private readonly IColorPaletteContext _dbContext;
+        private readonly ColorPaletteContext _dbContext;
 
-        public PicturesRepository(IColorPaletteContext context)
+        public PicturesRepository(ColorPaletteContext context)
         {
             _dbContext = context;
         }

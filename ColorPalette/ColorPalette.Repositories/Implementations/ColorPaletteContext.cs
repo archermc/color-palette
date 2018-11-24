@@ -7,7 +7,7 @@ namespace ColorPalette.Repositories.Implementations
 {
     public class ColorPaletteContext : DbContext, IColorPaletteContext
     {
-        public ColorPaletteContext() : base(new DbContextOptions<ColorPaletteContext>())
+        public ColorPaletteContext(DbContextOptions options) : base(options)
         {
             // Set log variable so that we can make sure the SQL queries generated aren't inefficient
             // Database.Log = (string s) => System.Diagnostics.Debug.WriteLine(s);
@@ -16,7 +16,7 @@ namespace ColorPalette.Repositories.Implementations
         public DbSet<Picture> Pictures { get; set; }
         public Task<int> SaveChangesAsync()
         {
-            throw new System.NotImplementedException();
+            return base.SaveChangesAsync();
         }
 
     }

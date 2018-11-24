@@ -134,10 +134,13 @@ namespace ColorPalette.Services.Implementations
 
             var entriesPerSwatch = values.Count / numberOfSwatches;
 
-            for (int i = 0; i < numberOfSwatches; i++)
+            for (var i = 0; i < numberOfSwatches; i++)
             {
                 // separate the entire value pool into individual parts
-                var sample = values.Skip(entriesPerSwatch * i).Take(entriesPerSwatch).ToList();
+                var sample = values
+                                .Skip(entriesPerSwatch * i)
+                                .Take(entriesPerSwatch)
+                                .ToList();
 
                 // find median of each value
                 var medianHue = sample[entriesPerSwatch / 2].Hue;
