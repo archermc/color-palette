@@ -5,7 +5,9 @@ using ColorPalette.Services.Models;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -48,10 +50,8 @@ namespace ColorPalette.Services.Implementations
         {
             // Read the image from stream, convert it to Bitmap, and generate the swatches with it
             // in one using simply so that both the image and MemoryStream will dispose after being used
-            
-            // TODO: implement image from stream
-            //using (var image = (Bitmap)MediaTypeNames.Image.FromStream(new MemoryStream(picture.Contents)))
-            //    picture.ColorSwatches = GenerateColorSwatches(image);
+            using (var image = (Bitmap)Image.FromStream(new MemoryStream(picture.Contents)))
+                picture.ColorSwatches = GenerateColorSwatches(image);
 
             var result = await _picturesRepository.AddAsync(picture);
 

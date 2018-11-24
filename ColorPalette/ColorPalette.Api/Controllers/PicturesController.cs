@@ -1,4 +1,5 @@
-﻿using ColorPalette.Objects;
+﻿using System;
+using ColorPalette.Objects;
 using ColorPalette.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,18 +10,18 @@ namespace ColorPalette.Api.Controllers
 {
     public class PicturesController : ControllerBase
     {
-        private readonly IPicturesService _picturesManager;
+        private readonly IPicturesService _picturesService;
 
-        public PicturesController(IPicturesService picturesManager)
+        public PicturesController(IPicturesService picturesService)
         {
-            _picturesManager = picturesManager;
+            _picturesService = picturesService;
         }
 
         // GET: api/Pictures
         [HttpGet, Route("api/pictures")]
         public async Task<IActionResult> GetPictures()
         {
-            var allPictures = await _picturesManager.GetAllPictures();
+            var allPictures = await _picturesService.GetAllPictures();
 
             return Ok(allPictures);
         }
@@ -28,7 +29,7 @@ namespace ColorPalette.Api.Controllers
         // GET: api/Pictures/5
         public async Task<IActionResult> GetPicture(int id)
         {
-            var picture = await _picturesManager.GetPicture(id);
+            var picture = await _picturesService.GetPicture(id);
 
             if (picture == null)
                 return NotFound();
@@ -40,30 +41,39 @@ namespace ColorPalette.Api.Controllers
         [HttpPost, Route("api/pictures")]
         public async Task<IActionResult> PostPicture(IFormFile file)
         {
-            if (file == null)
-                return BadRequest();
-
-            var fileName = Path.GetFileName(file.FileName);
-            byte[] fileContents;
-
-            using (var binaryReader = new BinaryReader(file.OpenReadStream()))
-                fileContents = binaryReader.ReadBytes((int)file.Length);
-
-            var pictureDto = new PictureDto
+            try
             {
-                FileName = fileName,
-                Contents = fileContents
-            };
+                if (file == null)
+                    return BadRequest();
 
-            var completedEntry = await _picturesManager.AddPicture(pictureDto);
+                var fileName = Path.GetFileName(file.FileName);
+                byte[] fileContents;
 
-            return Created($"api/Pictures/{completedEntry.Id}", completedEntry.ColorSwatches);
+                using (var binaryReader = new BinaryReader(file.OpenReadStream()))
+                    fileContents = binaryReader.ReadBytes((int) file.Length);
+
+                var pictureDto = new PictureDto
+                {
+                    FileName = fileName,
+                    Contents = fileContents
+                };
+
+                var completedEntry = await _picturesService.AddPicture(pictureDto);
+
+                return Ok(completedEntry.ColorSwatches);
+                //return Created($"api/Pictures/{completedEntry.Id}", completedEntry.ColorSwatches);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
+
         }
 
         // DELETE: api/Pictures/5
         public async Task<IActionResult> DeletePicture(int id)
         {
-            var result = await _picturesManager.DeletePicture(id);
+            var result = await _picturesService.DeletePicture(id);
             if (!result)
             {
                 return NotFound();

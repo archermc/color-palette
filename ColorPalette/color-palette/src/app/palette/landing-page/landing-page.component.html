@@ -1,0 +1,24 @@
+<div class="jumbotron bg-secondary">
+  <div class="container">
+    <h2 class="text-white" style="text-align:center">Color Palette Generator</h2>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <cp-canvas class="canvas"></cp-canvas>
+    </div>
+  </div>
+  <div class="row">
+    <cp-swatch-list class="swatch-list col-sm-12"></cp-swatch-list>
+  </div>
+  <div class="row">
+    <div class="col-md-12 button-section">
+      <cp-file class="file"></cp-file>
+      <button class="upload" (click)="uploadImage()">Upload</button>
+      <div class="float-md-right">
+        <button (click)="resetImage()">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -21,6 +21,16 @@ namespace ColorPalette.Api
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddCors(options =>
+                options.AddPolicy("Development",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials();
+                    }));
+
             DependencyInjection.ConfigureDependencies(services);
         }
 
@@ -37,6 +47,7 @@ namespace ColorPalette.Api
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("Development");
             app.UseMvc();
         }
     }
