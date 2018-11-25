@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using ColorPalette.Repositories.Models;
 
 namespace ColorPalette.Services.Implementations
 {
@@ -26,9 +27,11 @@ namespace ColorPalette.Services.Implementations
         /// Returns all pictures in the DB
         /// </summary>
         /// <returns>All pictures in DB</returns>
-        public async Task<List<PictureDto>> GetAllPictures()
+        public async Task<IEnumerable<PictureDto>> GetAllPictures()
         {
-            return await _picturesRepository.GetAllAsync();
+            var pictures = await _picturesRepository.GetAllAsync();
+
+            return pictures.Select(p => new PictureDto(p));
         }
 
         /// <summary>
@@ -38,7 +41,15 @@ namespace ColorPalette.Services.Implementations
         /// <returns>Picture Dto corresponding to identifier provided</returns>
         public async Task<PictureDto> GetPicture(int id)
         {
-            return await _picturesRepository.GetAsync(id);
+            var picture = await _picturesRepository.GetAsync(id);
+
+            return new PictureDto
+            {
+                Id = picture.Id,
+                FileName = picture.FileName,
+                ColorSwatches = FormatColorSwatches(picture.ColorSwatches),
+                Contents = picture.Contents
+            };
         }
 
         /// <summary>
@@ -53,9 +64,14 @@ namespace ColorPalette.Services.Implementations
             using (var image = (Bitmap)Image.FromStream(new MemoryStream(picture.Contents)))
                 picture.ColorSwatches = GenerateColorSwatches(image);
 
-            var result = await _picturesRepository.AddAsync(picture);
+            var result = await _picturesRepository.AddAsync(new Picture
+            {
+                FileName = picture.FileName,
+                Contents = picture.Contents,
+                ColorSwatches = picture.GetColorSwatchesAsString()
+            });
 
-            return result;
+            return new PictureDto(result);
         }
 
         /// <summary>

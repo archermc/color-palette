@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ColorPalette.Objects;
-using ColorPalette.Repositories.Interfaces;
+﻿using ColorPalette.Repositories.Interfaces;
 using ColorPalette.Repositories.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ColorPalette.Repositories.Implementations
 {
@@ -21,17 +19,9 @@ namespace ColorPalette.Repositories.Implementations
         /// Gets every picture in the database
         /// </summary>
         /// <returns>List of Picture Dtos that represent every entry in the database</returns>
-        public async Task<List<PictureDto>> GetAllAsync()
+        public async Task<List<Picture>> GetAllAsync()
         {
-            var pictures = await _dbContext.Pictures.ToListAsync();
-
-            return pictures.Select(p => new PictureDto
-            {
-                Id = p.Id,
-                FileName = p.FileName,
-                Contents = p.Contents,
-                ColorSwatches = FormatColorSwatches(p.ColorSwatches)
-            }).ToList();
+            return await _dbContext.Pictures.ToListAsync();
         }
 
         /// <summary>
@@ -39,20 +29,9 @@ namespace ColorPalette.Repositories.Implementations
         /// </summary>
         /// <param name="id">Unique identifier tied to the picture</param>
         /// <returns>Picture Dto representing picture object in the database</returns>
-        public async Task<PictureDto> GetAsync(int id)
+        public async Task<Picture> GetAsync(int id)
         {
-            var picture = await _dbContext.Pictures.SingleOrDefaultAsync(p => p.Id == id);
-
-            if (picture == null)
-                return null;
-
-            return new PictureDto
-            {
-                Id = picture.Id,
-                FileName = picture.FileName,
-                ColorSwatches = FormatColorSwatches(picture.ColorSwatches),
-                Contents = picture.Contents
-            };
+            return await _dbContext.Pictures.SingleOrDefaultAsync(p => p.Id == id);
         }
 
         /// <summary>
@@ -60,24 +39,13 @@ namespace ColorPalette.Repositories.Implementations
         /// </summary>
         /// <param name="picture">PictureDto that represents the picture to add to the database</param>
         /// <returns>PictureDto represeting the object created in the database</returns>
-        public async Task<PictureDto> AddAsync(PictureDto picture)
+        public async Task<Picture> AddAsync(Picture picture)
         {
-            var newPicture = _dbContext.Pictures.Add(new Picture
-            {
-                FileName = picture.FileName,
-                Contents = picture.Contents,
-                ColorSwatches = picture.GetColorSwatchesAsString()
-            }).Entity;
+            var newPicture = _dbContext.Pictures.Add(picture).Entity;
 
             await _dbContext.SaveChangesAsync();
 
-            return new PictureDto
-            {
-                Id = newPicture.Id,
-                FileName = newPicture.FileName,
-                Contents = newPicture.Contents,
-                ColorSwatches = FormatColorSwatches(newPicture.ColorSwatches)
-            };
+            return newPicture;
         }
 
         /// <summary>
@@ -96,45 +64,5 @@ namespace ColorPalette.Repositories.Implementations
 
             return true;
         }
-
-        #region Helper Methods
-
-        private SwatchDto[] FormatColorSwatches(string rawInput)
-        {
-            if (string.IsNullOrEmpty(rawInput))
-                return null;
-
-            var pixelList = rawInput.Split(',');
-            var toReturn = new List<SwatchDto>();
-
-            for (int i = 0; i < pixelList.Length; i += 3)
-            {
-                toReturn.Add(new SwatchDto
-                {
-                    R = int.Parse(pixelList[i]),
-                    G = int.Parse(pixelList[i + 1]),
-                    B = int.Parse(pixelList[i + 2])
-                });
-            }
-
-            return toReturn.Count > 0 ? toReturn.ToArray() : null;
-        }
-
-        //private bool PictureExists(int id)
-        //{
-        //    return _dbContext.Pictures.Count(e => e.Id == id) > 0;
-        //}
-
-        // TODO: possibly refactor into extension method
-        //private Picture UpdatePicture(Picture picture, PictureDto pictureDto)
-        //{
-        //    picture.FileName = pictureDto.FileName;
-        //    picture.ColorSwatches = pictureDto.ColorSwatches.ToString();
-        //    picture.Contents = pictureDto.Contents;
-
-        //    return picture;
-        //}
-
-        #endregion
     }
 }
