@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "./http.service";
 import { Swatch } from "../models/swatch.model";
+import { BehaviorSubject, Subject } from "rxjs";
 
 @Injectable()
 export class ColorPaletteService {
     fileContents: File;
-    swatches: Swatch[] = [];
+    swatches: Subject<Swatch[]> = new Subject<Swatch[]>();
     imgUrl: any;
 
     constructor(private httpService: HttpService) { }
@@ -32,7 +33,7 @@ export class ColorPaletteService {
 
         this.httpService.postPicture(formData).subscribe(
             s => {
-                this.swatches = s;
+                this.swatches.next(s);
             },
             e => {
                 console.log(e);

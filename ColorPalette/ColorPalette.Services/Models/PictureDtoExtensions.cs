@@ -1,6 +1,7 @@
-﻿using ColorPalette.Repositories.Models;
+﻿using ColorPalette.Objects;
+using ColorPalette.Repositories.Models;
 
-namespace ColorPalette.Objects
+namespace ColorPalette.Services.Models
 {
     public static class PictureDtoExtensions
     {

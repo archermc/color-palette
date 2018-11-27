@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ColorPaletteService } from './../../shared/services/color-palette.service';
+import { Swatch } from 'src/app/shared/models/swatch.model';
 
 @Component({
   selector: 'cp-swatch-list',
@@ -7,7 +8,13 @@ import { ColorPaletteService } from './../../shared/services/color-palette.servi
   styleUrls: ['./swatch-list.component.less']
 })
 export class SwatchListComponent implements OnInit {
+  swatches: Swatch[];
+
   constructor(public colorPaletteService: ColorPaletteService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.colorPaletteService.swatches.subscribe(
+      s => { this.swatches = s; }
+    );
+  }
 }

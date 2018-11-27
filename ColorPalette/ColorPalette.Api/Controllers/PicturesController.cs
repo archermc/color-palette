@@ -1,14 +1,15 @@
-﻿using System;
-using ColorPalette.Objects;
+﻿using ColorPalette.Objects;
+using ColorPalette.Objects.Utility;
 using ColorPalette.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace ColorPalette.Api.Controllers
 {
-    public class PicturesController : ControllerBase
+    public class PicturesController : EnhancedController
     {
         private readonly IPicturesService _picturesService;
 
@@ -58,14 +59,15 @@ namespace ColorPalette.Api.Controllers
                     Contents = fileContents
                 };
 
-                var completedEntry = await _picturesService.AddPicture(pictureDto);
+                var operation = await _picturesService.AddPicture(pictureDto);
 
-                return Ok(completedEntry.ColorSwatches);
-                //return Created($"api/Pictures/{completedEntry.Id}", completedEntry.ColorSwatches);
+                return operation.DidSucceed 
+                    ? Ok(operation.Result.ColorSwatches) 
+                    : InternalError(operation.Exception);
             }
             catch (Exception e)
             {
-                return StatusCode(500);
+                return InternalError(e);
             }
 
         }
@@ -73,13 +75,11 @@ namespace ColorPalette.Api.Controllers
         // DELETE: api/Pictures/5
         public async Task<IActionResult> DeletePicture(int id)
         {
-            var result = await _picturesService.DeletePicture(id);
-            if (!result)
-            {
-                return NotFound();
-            }
+            var operation = await _picturesService.DeletePicture(id);
 
-            return Ok();
+            return operation.DidSucceed
+                ? Ok()
+                : InternalError(operation.Exception);
         }
     }
 }

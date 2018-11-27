@@ -1,4 +1,5 @@
 ﻿using ColorPalette.Objects;
+using ColorPalette.Objects.Utility;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,9 +7,9 @@ namespace ColorPalette.Services.Interfaces
 {
     public interface IPicturesService
     {
-        Task<IEnumerable<PictureDto>> GetAllPictures();
-        Task<PictureDto> GetPicture(int id);
-        Task<PictureDto> AddPicture(PictureDto picture);
-        Task<bool> DeletePicture(int id);
+        Task<Operation<IEnumerable<PictureDto>>> GetAllPictures();
+        Task<Operation<PictureDto>> GetPicture(int id);
+        Task<Operation<PictureDto>> AddPicture(PictureDto pictureDto);
+        Task<Operation> DeletePicture(int id);
     }
 }

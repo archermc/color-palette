@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ColorPalette.Objects.Utility
 {
@@ -8,6 +6,17 @@ namespace ColorPalette.Objects.Utility
     {
         public bool DidSucceed { get; set; }
         public Exception Exception { get; set; }
+
+        protected Operation(bool didSucceed, Exception exception = null)
+        {
+            DidSucceed = didSucceed;
+            Exception = exception;
+        }
+
+        public static Operation WithSuccess()
+        {
+            return new Operation(true);
+        }
     }
 
     public class Operation<T> : Operation
@@ -24,11 +33,14 @@ namespace ColorPalette.Objects.Utility
             return new Operation<T>(false, default(T), exception);
         }
 
-        private Operation(bool didSucceed, T result = default(T), Exception exception = null)
+        public static Operation<T> FromExisting(Operation operation)
+        {
+            return new Operation<T>(operation.DidSucceed, default(T), operation.Exception);
+        }
+
+        private Operation(bool didSucceed, T result = default(T), Exception exception = null) : base(didSucceed, exception)
         {
             Result = result;
-            DidSucceed = didSucceed;
-            Exception = exception;
         }
     }
 }

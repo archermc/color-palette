@@ -14,7 +14,6 @@ export class FileComponent implements OnInit {
   }
 
   onChange(contents: File) {
-    console.log(contents);
     this.colorPaletteService.changeFileContents(contents);
   }
 }

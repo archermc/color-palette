@@ -1,7 +1,10 @@
-﻿using ColorPalette.Repositories.Interfaces;
+﻿using System;
+using ColorPalette.Objects.Utility;
+using ColorPalette.Repositories.Interfaces;
 using ColorPalette.Repositories.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ColorPalette.Repositories.Implementations
@@ -19,9 +22,18 @@ namespace ColorPalette.Repositories.Implementations
         /// Gets every picture in the database
         /// </summary>
         /// <returns>List of Picture Dtos that represent every entry in the database</returns>
-        public async Task<List<Picture>> GetAllAsync()
+        public async Task<Operation<IEnumerable<Picture>>> GetAllAsync()
         {
-            return await _dbContext.Pictures.ToListAsync();
+            try
+            {
+                var pictures = await _dbContext.Pictures.ToListAsync();
+
+                return Operation<IEnumerable<Picture>>.WithSuccess(pictures);
+            }
+            catch (Exception e)
+            {
+                return Operation<IEnumerable<Picture>>.WithException(e);
+            }
         }
 
         /// <summary>
@@ -29,9 +41,18 @@ namespace ColorPalette.Repositories.Implementations
         /// </summary>
         /// <param name="id">Unique identifier tied to the picture</param>
         /// <returns>Picture Dto representing picture object in the database</returns>
-        public async Task<Picture> GetAsync(int id)
+        public async Task<Operation<Picture>> GetAsync(int id)
         {
-            return await _dbContext.Pictures.SingleOrDefaultAsync(p => p.Id == id);
+            try
+            {
+                var picture = await _dbContext.Pictures.SingleAsync(p => p.Id == id);
+
+                return Operation<Picture>.WithSuccess(picture);
+            }
+            catch (Exception e)
+            {
+                return Operation<Picture>.WithException(e);
+            }
         }
 
         /// <summary>
@@ -39,13 +60,13 @@ namespace ColorPalette.Repositories.Implementations
         /// </summary>
         /// <param name="picture">PictureDto that represents the picture to add to the database</param>
         /// <returns>PictureDto represeting the object created in the database</returns>
-        public async Task<Picture> AddAsync(Picture picture)
+        public async Task<Operation<Picture>> AddAsync(Picture picture)
         {
             var newPicture = _dbContext.Pictures.Add(picture).Entity;
 
             await _dbContext.SaveChangesAsync();
 
-            return newPicture;
+            return Operation<Picture>.WithSuccess(newPicture);
         }
 
         /// <summary>
@@ -53,7 +74,7 @@ namespace ColorPalette.Repositories.Implementations
         /// </summary>
         /// <param name="id">Unique identifier for the </param>
         /// <returns></returns>
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<Operation> DeleteAsync(int id)
         {
             var picture = new Picture { Id = id };
 
@@ -62,7 +83,7 @@ namespace ColorPalette.Repositories.Implementations
 
             await _dbContext.SaveChangesAsync();
 
-            return true;
+            return Operation.WithSuccess();
         }
     }
 }

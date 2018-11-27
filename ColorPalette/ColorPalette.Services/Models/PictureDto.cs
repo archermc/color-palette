@@ -1,6 +1,6 @@
-﻿using ColorPalette.Repositories.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using ColorPalette.Repositories.Models;
 
 namespace ColorPalette.Objects
 {

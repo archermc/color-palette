@@ -1,4 +1,5 @@
 ﻿using ColorPalette.Objects;
+using ColorPalette.Objects.Utility;
 using ColorPalette.Repositories.Interfaces;
 using ColorPalette.Services.Interfaces;
 using ColorPalette.Services.Models;
@@ -7,10 +8,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using ColorPalette.Repositories.Models;
 
 namespace ColorPalette.Services.Implementations
 {
@@ -27,11 +26,16 @@ namespace ColorPalette.Services.Implementations
         /// Returns all pictures in the DB
         /// </summary>
         /// <returns>All pictures in DB</returns>
-        public async Task<IEnumerable<PictureDto>> GetAllPictures()
+        public async Task<Operation<IEnumerable<PictureDto>>> GetAllPictures()
         {
-            var pictures = await _picturesRepository.GetAllAsync();
+            var operation = await _picturesRepository.GetAllAsync();
 
-            return pictures.Select(p => new PictureDto(p));
+            return operation.DidSucceed 
+                ? Operation<IEnumerable<PictureDto>>.WithSuccess(
+                    operation.Result
+                        .Select(p => new PictureDto(p))
+                        .ToList()) 
+                : Operation<IEnumerable<PictureDto>>.FromExisting(operation);
         }
 
         /// <summary>
@@ -39,39 +43,33 @@ namespace ColorPalette.Services.Implementations
         /// </summary>
         /// <param name="id">Unique identifier of photo to return</param>
         /// <returns>Picture Dto corresponding to identifier provided</returns>
-        public async Task<PictureDto> GetPicture(int id)
+        public async Task<Operation<PictureDto>> GetPicture(int id)
         {
-            var picture = await _picturesRepository.GetAsync(id);
+            var operation = await _picturesRepository.GetAsync(id);
 
-            return new PictureDto
-            {
-                Id = picture.Id,
-                FileName = picture.FileName,
-                ColorSwatches = FormatColorSwatches(picture.ColorSwatches),
-                Contents = picture.Contents
-            };
+            return operation.DidSucceed
+                ? Operation<PictureDto>.WithSuccess(new PictureDto(operation.Result))
+                : Operation<PictureDto>.FromExisting(operation);
         }
 
         /// <summary>
         /// Adds a picture to the DB, generating color swatches beforehand
         /// </summary>
-        /// <param name="picture"></param>
+        /// <param name="pictureDto"></param>
         /// <returns>Picture Dto object representing the object created in DB</returns>
-        public async Task<PictureDto> AddPicture(PictureDto picture)
+        public async Task<Operation<PictureDto>> AddPicture(PictureDto pictureDto)
         {
             // Read the image from stream, convert it to Bitmap, and generate the swatches with it
             // in one using simply so that both the image and MemoryStream will dispose after being used
-            using (var image = (Bitmap)Image.FromStream(new MemoryStream(picture.Contents)))
-                picture.ColorSwatches = GenerateColorSwatches(image);
+            using (var image = (Bitmap)Image.FromStream(new MemoryStream(pictureDto.Contents)))
+                pictureDto.ColorSwatches = GenerateColorSwatches(image);
 
-            var result = await _picturesRepository.AddAsync(new Picture
-            {
-                FileName = picture.FileName,
-                Contents = picture.Contents,
-                ColorSwatches = picture.GetColorSwatchesAsString()
-            });
+            var picture = pictureDto.ToPicture();
+            var operation = await _picturesRepository.AddAsync(picture);
 
-            return new PictureDto(result);
+            return operation.DidSucceed 
+                ? Operation<PictureDto>.WithSuccess(new PictureDto(operation.Result)) 
+                : Operation<PictureDto>.FromExisting(operation);
         }
 
         /// <summary>
@@ -79,7 +77,7 @@ namespace ColorPalette.Services.Implementations
         /// </summary>
         /// <param name="id">Unique identifier of picture to delete</param>
         /// <returns>Boolean value representing success of deletion</returns>
-        public async Task<bool> DeletePicture(int id)
+        public async Task<Operation> DeletePicture(int id)
         {
             return await _picturesRepository.DeleteAsync(id);
         }
@@ -94,13 +92,13 @@ namespace ColorPalette.Services.Implementations
         private SwatchDto[] GenerateColorSwatches(Bitmap image)
         {
             // set up our variables: the pixel count and the area of the bitmap for easy reference
-            const int PIXEL_COUNT = 3;
+            const int pixelCount = 3;
             BitmapData bmpData = null;
-            var bmpArea = image.Width * image.Height;
+            var imageArea = image.Width * image.Height;
 
             // create the array that will hold the rgb values as well as the one that will hold the hsv values
-            var pixelBois = new byte[bmpArea * PIXEL_COUNT];
-            var hsvValues = new Hsv[bmpArea];
+            var pixelBois = new byte[imageArea * pixelCount];
+            var hsvValues = new Hsv[imageArea];
 
             try
             {
@@ -115,14 +113,14 @@ namespace ColorPalette.Services.Implementations
                 image.UnlockBits(bmpData);
             }
 
-            for (int i = 0; i < pixelBois.Length; i += PIXEL_COUNT)
+            for (var i = 0; i < pixelBois.Length; i += pixelCount)
             {
                 // create a color object with the RGB values reversed as the storage from the int* pointer goes BGR
                 // Shout out to github.com/programmingthomas for helping resolve this problem
                 var c = Color.FromArgb(pixelBois[i + 2], pixelBois[i + 1], pixelBois[i]);
 
                 // convert it to HSV and store it in the corresponding HSV array (divided by 3 since each represents a whole pixel value)
-                hsvValues[i / PIXEL_COUNT] = new Hsv(c);
+                hsvValues[i / pixelCount] = new Hsv(c);
             }
 
             var hsvSwatches = SortByHueAndFormatHsvValues(hsvValues.ToList());
