@@ -135,5 +135,8 @@
       }
     }
   },
-  "defaultProject": "color-palette"
+  "defaultProject": "color-palette",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

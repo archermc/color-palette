@@ -1,20 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ColorPaletteService } from './../../shared/services/color-palette.service';
-import { Swatch } from 'src/app/shared/models/swatch.model';
+import { PaletteState } from 'src/app/store/reducers/palette.reducer';
+import { Store } from '@ngrx/store';
+import { getSwatchesSelector } from 'src/app/store/reducers';
 
 @Component({
   selector: 'cp-swatch-list',
   templateUrl: './swatch-list.component.html',
   styleUrls: ['./swatch-list.component.less']
 })
-export class SwatchListComponent implements OnInit {
-  swatches: Swatch[];
-
-  constructor(public colorPaletteService: ColorPaletteService) { }
-
-  ngOnInit() {
-    this.colorPaletteService.swatches.subscribe(
-      s => { this.swatches = s; }
-    );
-  }
+export class SwatchListComponent {
+  swatches$ = this.store.select(getSwatchesSelector);
+  
+  constructor(private store: Store<PaletteState>) { }
 }

@@ -30,12 +30,11 @@ namespace ColorPalette.Api.Controllers
         // GET: api/Pictures/5
         public async Task<IActionResult> GetPicture(int id)
         {
-            var picture = await _picturesService.GetPicture(id);
+            var pictureOperation = await _picturesService.GetPicture(id);
 
-            if (picture == null)
-                return NotFound();
-
-            return Ok(picture);
+            return !pictureOperation.DidSucceed 
+                ? InternalError(pictureOperation.Exception) 
+                : Ok(pictureOperation.Result);
         }
 
         // POST: api/Pictures
@@ -69,7 +68,6 @@ namespace ColorPalette.Api.Controllers
             {
                 return InternalError(e);
             }
-
         }
 
         // DELETE: api/Pictures/5

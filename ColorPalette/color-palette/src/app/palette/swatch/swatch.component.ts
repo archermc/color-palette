@@ -6,13 +6,10 @@ import { Swatch } from 'src/app/shared/models/swatch.model';
   template: `<div class='color-swatch' style.background-color='{{getBackgroundColor()}}'></div>`,
   styleUrls: ['./swatch.component.less']
 })
-export class SwatchComponent implements OnInit {
+export class SwatchComponent {
   @Input() swatch: Swatch;
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
   getBackgroundColor() {
     var b = 'rgb(' + this.swatch.R + ',' + this.swatch.G + ',' + this.swatch.B + ')';

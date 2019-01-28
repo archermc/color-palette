@@ -1,29 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { ColorPaletteService } from 'src/app/shared/services/color-palette.service';
+import { Component } from '@angular/core';
+import { PaletteState } from 'src/app/store/reducers/palette.reducer';
+import { Store } from '@ngrx/store';
+import * as paletteActions from 'src/app/store/actions/palette.actions';
+import * as paletteSelectors from './../../store/reducers/index';
 
 @Component({
   selector: 'cp-landing-page',
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.less']
 })
-export class LandingPageComponent implements OnInit {
-  constructor(
-    private colorPaletteService: ColorPaletteService
-  ) { }
+export class LandingPageComponent {
+  hasImageUrl$ = this.store.select(paletteSelectors.getHasImageUrlSelector);
+  hasSwatches$ = this.store.select(paletteSelectors.getHasSwatchesSelector);
 
-  ngOnInit() {
-
-  }
+  constructor(private store: Store<PaletteState>) { }
 
   uploadImage() {
-    if (this.colorPaletteService.hasFileToUpload()) {
-      this.colorPaletteService.uploadFile();
-    } else {
-      // figure out how to make some html elements outlined in red
-    }
+    this.store.dispatch(new paletteActions.UploadFile());
   }
 
   resetImage() {
-    console.log('image resetting');
+    this.store.dispatch(new paletteActions.ResetFile());
   }
 }
