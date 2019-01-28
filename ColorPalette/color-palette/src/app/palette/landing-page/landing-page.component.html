@@ -1,24 +1,26 @@
-<div class="jumbotron bg-secondary">
-  <div class="container">
-    <h2 class="text-white" style="text-align:center">Color Palette Generator</h2>
-  </div>
-</div>
 <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <cp-canvas class="canvas"></cp-canvas>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12 button-section">
-      <cp-file class="file"></cp-file>
-      <button class="upload" (click)="uploadImage()" [disabled]="!(hasImageUrl$ | async)">Upload</button>
-      <div class="float-md-right">
-        <button (click)="resetImage()">Reset</button>
+  <mat-toolbar>
+    <span>Color Palette Generator</span>
+  </mat-toolbar>
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <cp-canvas class="canvas"></cp-canvas>
       </div>
     </div>
-  </div>
-  <div class="row" *ngIf="hasSwatches$ | async">
-    <cp-swatch-list class="swatch-list col-sm-12"></cp-swatch-list>
-  </div>
+    <div class="row">
+      <div class="button-section">
+        <div>
+          <cp-file class="file"></cp-file>
+        </div>
+        <div>
+          <button mat-raised-button primary (click)="uploadImage()" [disabled]="!(hasImageUrl$ | async)" class="upload-button">Upload</button>
+          <button mat-raised-button primary (click)="resetImage()">Reset</button>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="hasSwatches$ | async">
+      <cp-swatch-list class="swatch-list"></cp-swatch-list>
+    </div>
+  </div>      
 </div>
