@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { PaletteState } from 'src/app/store/reducers/palette.reducer';
-import { Store } from '@ngrx/store';
-import { getSwatchesSelector } from 'src/app/store/reducers';
+import { Component, Input } from '@angular/core';
+import { Swatch } from 'src/app/shared/models/swatch.model';
 
 @Component({
   selector: 'cp-swatch-list',
   templateUrl: './swatch-list.component.html',
   styleUrls: ['./swatch-list.component.less']
 })
-export class SwatchListComponent {
-  swatches$ = this.store.select(getSwatchesSelector);
-  
-  constructor(private store: Store<PaletteState>) { }
+export class SwatchListComponent {  
+  @Input()
+  public swatches: Swatch[];
 }

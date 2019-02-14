@@ -7,7 +7,7 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "app",
+      "prefix": "cp",
       "schematics": {
         "@schematics/angular:component": {
           "styleext": "less"

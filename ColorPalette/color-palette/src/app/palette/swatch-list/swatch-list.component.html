@@ -1,5 +1,5 @@
-<div class="swatch-list col-md-12">
-  <div *ngFor="let swatch of (getSwatches$ | async)">
+<div class="swatch-list">
+  <div *ngFor="let swatch of swatches">
     <cp-swatch [swatch]="swatch"></cp-swatch>
   </div>
 </div>

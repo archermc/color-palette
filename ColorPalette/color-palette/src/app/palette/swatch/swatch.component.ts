@@ -3,7 +3,7 @@ import { Swatch } from 'src/app/shared/models/swatch.model';
 
 @Component({
   selector: 'cp-swatch',
-  template: `<div class='color-swatch' style.background-color='{{getBackgroundColor()}}'></div>`,
+  template: `<div class="color-swatch" [style.background-color]=""></div>`,
   styleUrls: ['./swatch.component.less']
 })
 export class SwatchComponent {
@@ -11,8 +11,8 @@ export class SwatchComponent {
 
   constructor() { }
 
-  getBackgroundColor() {
-    var b = 'rgb(' + this.swatch.R + ',' + this.swatch.G + ',' + this.swatch.B + ')';
+  public backgroundColor() {
+    var b = 'rgb(' + Number(this.swatch.R) + ',' + Number(this.swatch.G) + ',' + (this.swatch.B) + ')';
     return b;
   }
 }

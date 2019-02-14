@@ -10,8 +10,9 @@ import * as paletteSelectors from './../../store/reducers/index';
   styleUrls: ['./landing-page.component.less']
 })
 export class LandingPageComponent {
-  hasImageUrl$ = this.store.select(paletteSelectors.getHasImageUrlSelector);
-  hasSwatches$ = this.store.select(paletteSelectors.getHasSwatchesSelector);
+  public hasImageUrl$ = this.store.select(paletteSelectors.getHasImageUrlSelector);
+  public hasSwatches$ = this.store.select(paletteSelectors.getHasSwatchesSelector);
+  public swatches$ = this.store.select(paletteSelectors.getSwatchesSelector);
 
   constructor(private store: Store<PaletteState>) { }
 

@@ -1,7 +1,5 @@
 <div class="container">
-  <mat-toolbar>
-    <span>Color Palette Generator</span>
-  </mat-toolbar>
+  <cp-header>Archer McNeill</cp-header>
   <div>
     <div class="row">
       <div class="col-md-12">
@@ -20,7 +18,7 @@
       </div>
     </div>
     <div class="row" *ngIf="hasSwatches$ | async">
-      <cp-swatch-list class="swatch-list"></cp-swatch-list>
+      <cp-swatch-list class="swatch-list" [swatches]="swatches$ | async"></cp-swatch-list>
     </div>
   </div>      
 </div>

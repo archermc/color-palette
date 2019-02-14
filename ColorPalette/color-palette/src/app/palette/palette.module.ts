@@ -7,6 +7,7 @@ import { SwatchComponent } from './swatch/swatch.component';
 import { FileComponent } from './file/file.component';
 import { ColorPaletteService } from '../shared/services/color-palette.service';
 import * as material from '@angular/material';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import * as material from '@angular/material';
     CanvasComponent,
     SwatchComponent,
     SwatchListComponent,
-    FileComponent
+    FileComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,
